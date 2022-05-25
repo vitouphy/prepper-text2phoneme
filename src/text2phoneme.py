@@ -21,7 +21,13 @@ class Text2Phoneme(object):
     def convert(self, text: str):
         phonemes = self._backend.phonemize(text.split(), separator=self._separator, strip=True)
         phonemes = [ "".join(phoneme.split()) for phoneme in phonemes ]
-        return " ".join(phonemes) 
+        result = " ".join(phonemes) 
+        breakdown = list(zip(text.split(), phonemes))
+
+        return {
+            "phoneme": result,
+            "breakdown": breakdown
+        }
 
 
 
