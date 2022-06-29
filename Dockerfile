@@ -1,3 +1,4 @@
+# Reference: https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-create-from-base
 FROM python:3.9-slim-buster
 
 RUN apt-get -y update

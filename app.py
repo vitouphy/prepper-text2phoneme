@@ -1,9 +1,14 @@
 from src.text2phoneme import Text2Phoneme
+import json 
 
 def get_error_response():
     return {
         'statusCode': 400,
-        'body': 'Invalid request'
+        'body': 'Invalid request',
+        "headers": {
+            "Access-Control-Allow-Origin": '*'
+        },
+        "isBase64Encoded": False
     }
 
 def validate(event):
@@ -20,10 +25,19 @@ def handler(event, context):
         
     params = event['queryStringParameters']
     result = Text2Phoneme().convert(params['text'])
-    response = {
+    
+    responseBody = {
         'phoneme': result['phoneme'],
         'text': params['text']
     }
     if 'breakdown' in params and params['breakdown'].lower() == 'true':
-        response['breakdown'] = result['breakdown']
-    return response
+        responseBody['breakdown'] = result['breakdown']
+
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Access-Control-Allow-Origin": '*'
+        },
+        "body": json.dumps(responseBody),
+        "isBase64Encoded": False
+    };
